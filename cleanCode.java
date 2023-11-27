@@ -1,6 +1,6 @@
 public class SensorDataProcessor {
 
-//SWE
+//SWee
  public double[][][] data; public double[][] limit;
 
 // constructor public 
