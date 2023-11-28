@@ -3,65 +3,98 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class SensorDataProcessor {
+public class SensorStatistics { // changed the name from SensorDataProcessor to SensorStatistics
 
 
     // Senson data and limits.
-    public double[][][] data；
-    public double[][] limit;
+    public double[][][] sensorReadings; // changed the name from data to sensorReadings
+    public double[][] sensorThresholds; // changed the name from limit to sensorThresholds
 
     // constructor
-    public DataProcessordouble(double[][][] data, double[][] limit) {
-        this. data = data;
-        this. limit = limit;
+    public SensorDataProcessor(double[][][] sensorReadings, double[][] sensorThresholds) { // changed the name from DataProcessordouble to SensorDataProcessor
+        this.sensorReadings = sensorReadings;
+        this.sensorThresholds = sensorThresholds;
     }
     // calculates average of sensor data
-    private double average(double[] array) {
-        int i = 0;
-        double val = 0;
-        for (i = 0; i < array.length; i++) {
-        val += array[i];
+    private double calculateAverage(double[] dataPoints) { //changed the name from average to calculateAverage && array to datapoints
+        int index = 0; //changed from i to index 
+        double total = 0; // changed from val to total
+        for (index = 0; index < array.dataPoints; index++) {
+        total += dataPoints[i];
         }
-        return val / array.length;
+        return total / dataPoints.length;
     }
     // calculate data s
-    public void calculate(double d) {
-        int i, j, k = 0;
-        double[][][] data2 = new
-        double[data.length][data[0].length][data[0][0].length];
-        BufferedWriter out;
-
-
+    public void analyzeSensorData(double normalizationFactor) { //changed name from calculate to analyzeSensorData && d to normalizationFactor
+        int i, j, k;
+        double[][][] normalizedReadings = new double[sensorReadings.length][sensorReadings[0].length][sensorReadings[0][0].length]; // changed data2 to normalizedReadings
+        BufferedWriter writer = null;
     // Write racing stats data into a file
     try {
-        out = new BufferedWriter(new FileWriter("RacingStatsData.txt"));
+        writer = new BufferedWriter(new FileWriter("NormalizedSensorReadings.txt")); // changed out to writer &&  file name from RacingStatsData to 
         
-        for (i = 0; i < data.length; i++) {
-            for (j = 0; j < data[0].length; j++) {
-                for (k = 0; k < data[0][0].length; k++) {
-                    data2[i][j][k] = data[i][j][k] / d -
-Math.pow(limit[i][j], 2.0);
-        if (average(data2[i][j]) > 10 && average(data2[i][j]) < 50)
-            break;
+        for (i = 0; i < sensorReadings.length; i++) {
+            for (j = 0; j < sensorReadings[0].length; j++) {
+                for (k = 0; k < sensorReadings[0][0].length; k++) {
+                    normalizedReadings[i][j][k] = sensorReadings[i][j][k] / normalizationDivisor - Math.pow(thresholdLimits[i][j], 2.0);
+                    double averageReading = calculateAverage(normalizedReadings[i][j]);
+                    if (averageReading > 10 && averageReading < 50)
+                    break;
+                else if (Math.max(sensorReadings[i][j][k], normalizedReadings[i][j][k]) > sensorReadings[i][j][k])
+                    break;
+                else if (Math.pow(Math.abs(sensorReadings[i][j][k]), 3) < Math.pow(Math.abs(normalizedReadings[i][j][k]), 3) && averageReading < normalizedReadings[i][j][k] && (i + 1) * (j + 1) > 0)
+                    normalizedReadings[i][j][k] *= 2;
+            }
+        }
+    }
 
-            else if (Math.max(data[i][j][k], data2[i][j][k]) > data[i][j][k])
-            break;
-
-            else if (Math.pow(Math.abs(data[i][j][k]), 3) < Math.pow(Math.abs(data2[i][j][k]), 3) && average(data[i][j]) < data2[i][j][k] && (i + 1) * (j + 1) > 0)
-            data2[i][j][k] *= 2;
-        else
-            continue;
+    for (i = 0; i < normalizedReadings.length; i++) {
+        for (j = 0; j < normalizedReadings[i].length; j++) {
+            for (k = 0; k < normalizedReadings[i][j].length; k++) {
+                writer.write(normalizedReadings[i][j][k] + "\t");
+            }
+            writer.newLine();
+        }
+    }
+} catch (IOException e) {
+    System.out.println("Error writing to file: " + e.getMessage());
+} finally {
+    if (writer != null) {
+        try {
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error closing the writer: " + e.getMessage());
         }
     }
 }
-        for (i = 0; i < data2.length; i++) {
-            for (j = 0; j < data2[0].length; j++) {
-                out.write(data2[i][j] + "\t");
+}
+
+
+
+
+try {
+                
+                
+
+    // Write the normalized readings to the file
+    for (double[][] normalizedLayer : normalizedReadings) {
+        for (double[] normalizedRow : normalizedLayer) {
+            for (double reading : normalizedRow) {
+                writer.write(reading + "\t");
+            }
+            writer.newLine();
         }
     }
-        out.close();
-    } catch (Exception e) {
-        System.out.println("Error= " + e);
+} catch (IOException e) {
+    System.out.println("Error writing to file: " + e.getMessage());
+} finally {
+    if (writer != null) {
+        try {
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error closing the writer: " + e.getMessage());
         }
     }
+}
+}
 }
