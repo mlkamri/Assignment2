@@ -24,7 +24,7 @@ public class SensorDataProcessor {
         }
         return val / array.length;
     }
-    // calculate data
+    // calculate data s
     public void calculate(double d) {
         int i, j, k = 0;
         double[][][] data2 = new
