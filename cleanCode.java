@@ -5,11 +5,11 @@ import java.io.IOException;
 
 public class SensorDataProcessor {
 
-//SWee
+
  public double[][][] data; public double[][] limit;
 
 // constructor public 
-DataProcessor(double[][][] data, double[][] limit) {
+SensorDataProcessor(double[][][] data, double[][] limit) {
 
 this.data = data;
 
