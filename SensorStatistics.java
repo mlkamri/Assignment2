@@ -19,8 +19,8 @@ public class SensorStatistics { // changed the name from SensorDataProcessor to 
     private double calculateAverage(double[] dataPoints) { //changed the name from average to calculateAverage && array to datapoints
         int index = 0; //changed from i to index 
         double total = 0; // changed from val to total
-        for (index = 0; index < array.dataPoints; index++) {
-        total += dataPoints[i];
+        for (index = 0; index < dataPoints.length; index++) {
+        total += dataPoints[index];
         }
         return total / dataPoints.length;
     }
@@ -36,7 +36,7 @@ public class SensorStatistics { // changed the name from SensorDataProcessor to 
         for (i = 0; i < sensorReadings.length; i++) {
             for (j = 0; j < sensorReadings[0].length; j++) {
                 for (k = 0; k < sensorReadings[0][0].length; k++) {
-                    normalizedReadings[i][j][k] = sensorReadings[i][j][k] / normalizationDivisor - Math.pow(thresholdLimits[i][j], 2.0);
+                    normalizedReadings[i][j][k] = sensorReadings[i][j][k] / normalizationFactor - Math.pow(sensorThresholds[i][j], 2.0);
                     double averageReading = calculateAverage(normalizedReadings[i][j]);
                     if (averageReading > 10 && averageReading < 50)
                     break;
@@ -67,7 +67,7 @@ public class SensorStatistics { // changed the name from SensorDataProcessor to 
         }
     }
 }
-}
+
 
 
 
