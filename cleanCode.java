@@ -11,7 +11,7 @@ public class SensorStatistics { // changed the name from SensorDataProcessor to 
     public double[][] sensorThresholds; // changed the name from limit to sensorThresholds
 
     // constructor
-    public SensorDataProcessor(double[][][] sensorReadings, double[][] sensorThresholds) { // changed the name from DataProcessordouble to SensorDataProcessor
+    public SensorStatistics(double[][][] sensorReadings, double[][] sensorThresholds) { // changed the name from DataProcessordouble to SensorDataProcessor
         this.sensorReadings = sensorReadings;
         this.sensorThresholds = sensorThresholds;
     }
